@@ -7,6 +7,7 @@ RUN bash builder.sh
 FROM registry.ci.openshift.org/ocp/4.13:tools
 COPY --from=builder /tmp/build/extended-platform-tests /usr/bin/
 COPY --from=builder /tmp/build/handleresult.py /usr/bin/
+COPY hack/guest.sh /usr/bin/
 RUN PACKAGES="git gzip zip util-linux openssh-clients httpd-tools skopeo" && \
     yum update -y && \
     sh -c 'echo -e "[rhel8.7-baseos]\nname=rhel8.7-baseos\nbaseurl=http://download-node-02.eng.bos.redhat.com/rhel-8/rel-eng/RHEL-8/latest-RHEL-8.7/compose/BaseOS/x86_64/os\nenabled=0\ngpgcheck=1" >/etc/yum.repos.d/rhel8.7-baseos.repo' && \
